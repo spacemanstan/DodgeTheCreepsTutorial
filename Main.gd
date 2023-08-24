@@ -4,6 +4,18 @@ extends Node
 var score
 
 
+# Handle input events
+func _input(event):
+	if event is InputEventKey:
+		if event.is_action_pressed("end_game"):
+			game_over()
+			$Player.hide()
+			# prevent dying aftering force ending the game
+			$Player.position = Vector2(-9999, -9999)
+			# Clear the mobs' queue and free them
+			get_tree().call_group("mobs", "queue_free")
+
+
 func game_over():
 	$ScoreTimer.stop()
 	$MobTimer.stop()
